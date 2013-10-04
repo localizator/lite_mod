@@ -1,0 +1,145 @@
+show_progress(0.000000, 0);
+ui_print("");
+ui_print("");
+ui_print("================================================");
+ui_print("|              Lite Mod V1                     |");
+ui_print("|             for Fly IQ445                    |");
+ui_print("|            build: 05.10.13                   |");
+ui_print("|                                              |");
+ui_print("|           MOD by localizator                 |");
+ui_print("|     localizator.github.io/lite_mod           |");
+ui_print("|          Follow me @localizator              |");
+ui_print("================================================");
+ui_print("");
+ui_print("");
+show_progress(0.950000, 50);
+
+ui_print("Start write EBR1...");
+assert(package_extract_file("EBR1", "/tmp/EBR1"),
+       run_program("/sbin/flash_image", "/dev/block/mmcblk0p1", "/tmp/EBR1"),
+       delete("/tmp/EBR1"));
+
+ui_print("Formatting system...");
+unmount("/system");
+unmount("/data");
+unmount("/cache");
+unmount("/sdcard");
+format("ext4", "EMMC", "/dev/block/mmcblk0p3", "0");
+format("ext4", "EMMC", "/dev/block/mmcblk0p5", "0");
+
+ui_print("Formatting Cache...");
+format("ext4", "EMMC", "/dev/block/mmcblk0p4", "0");
+mount("ext4", "EMMC", "/dev/block/mmcblk0p4", "/cache");
+delete_recursive("/cache");
+
+ui_print("Wiping Dalvik Cache...");
+mount("ext4", "EMMC", "/dev/block/mmcblk0p5", "/data");
+delete_recursive("/data/dalvik-cache");
+
+ui_print("Installing system files...");
+mount("ext4", "EMMC", "/dev/block/mmcblk0p3", "/system");
+package_extract_dir("system", "/system");
+package_extract_dir("data", "/data");
+show_progress(0.500000, 0);
+
+ui_print("Creating system links...");
+symlink("Roboto-Bold.ttf", "/system/fonts/DroidSans-Bold.ttf");
+symlink("Roboto-Regular.ttf", "/system/fonts/DroidSans.ttf");
+symlink("aee_aed", "/system/bin/debuggerd");
+symlink("p2p_mt6628.ko", "/system/lib/modules/p2p.ko");
+symlink("wlan_mt6620.ko", "/system/lib/modules/wlan.ko");
+symlink("wlan_mt6628.ko", "/system/lib/modules/wlan.ko");
+symlink("/system/bin/aee_aed", "/system/bin/debuggerd");
+symlink("/system/bin/mksh", "/system/bin/sh");
+symlink("/system/bin/toolbox", "/system/bin/cat", "/system/bin/chmod",
+        "/system/bin/chown", "/system/bin/cmp", "/system/bin/date",
+        "/system/bin/dd", "/system/bin/df", "/system/bin/dmesg",
+        "/system/bin/getevent", "/system/bin/getprop", "/system/bin/hd",
+        "/system/bin/id", "/system/bin/ifconfig", "/system/bin/iftop",
+        "/system/bin/insmod", "/system/bin/ioctl", "/system/bin/ionice",
+        "/system/bin/kill", "/system/bin/ln", "/system/bin/log",
+        "/system/bin/ls", "/system/bin/lsmod", "/system/bin/lsof",
+        "/system/bin/md5", "/system/bin/mkdir", "/system/bin/mount",
+        "/system/bin/mv", "/system/bin/nandread", "/system/bin/netstat",
+        "/system/bin/newfs_LRdos", "/system/bin/notify", "/system/bin/printenv",
+        "/system/bin/ps", "/system/bin/reboot", "/system/bin/renice",
+        "/system/bin/rm", "/system/bin/rmdir", "/system/bin/rmmod",
+        "/system/bin/route", "/system/bin/schedtop", "/system/bin/sendevent",
+        "/system/bin/setconsole", "/system/bin/setprop", "/system/bin/sleep",
+        "/system/bin/smd", "/system/bin/start", "/system/bin/stop",
+        "/system/bin/sync", "/system/bin/top", "/system/bin/touch",
+        "/system/bin/umount", "/system/bin/uptime", "/system/bin/vLRtat",
+        "/system/bin/watchprops",
+        "/system/bin/wipe");
+
+ui_print("Set permission...");
+set_perm_recursive(0, 0, 0755, 0644, "/system");
+set_perm_recursive(0, 2000, 0755, 0755, "/system/bin");
+set_perm_recursive(0, 2000, 0755, 0755, "/system/xbin");
+set_perm_recursive(0, 0, 0755, 0777, "/system/etc/init.d");
+set_perm(0, 3003, 02750, "/system/bin/netcfg");
+set_perm(0, 3004, 02755, "/system/bin/ping");
+set_perm(0, 2000, 0755, "/system/bin/sysinit");
+set_perm(0, 2000, 06750, "/system/bin/run-as");
+set_perm_recursive(1002, 1002, 0755, 0440, "/system/etc/bluetooth");
+set_perm(0, 0, 0755, "/system/etc/bluetooth");
+set_perm(1000, 1000, 0640, "/system/etc/bluetooth/auto_pairing.conf");
+set_perm(3002, 3002, 0444, "/system/etc/bluetooth/blacklist.conf");
+set_perm(1002, 1002, 0440, "/system/etc/dbus.conf");
+set_perm(1014, 2000, 0550, "/system/etc/dhcpcd/dhcpcd-run-hooks");
+set_perm(0, 2000, 0550, "/system/etc/init.goldfish.sh");
+set_perm_recursive(0, 0, 0755, 0555, "/system/etc/ppp");
+set_perm(0, 2000, 0755, "/system/vendor");
+set_perm_recursive(0, 2000, 0755, 0755, "/system/vendor/bin");
+set_perm(0, 2000, 0755, "/system/vendor/lib");
+set_perm_recursive(0, 2000, 0755, 0644, "/system/vendor/lib/drm");
+set_perm(0, 0, 0644, "/system/vendor/lib/drm/libdrmwvmplugin.so");
+set_perm(0, 2000, 0755, "/system/vendor/lib/egl");
+set_perm_recursive(0, 2000, 0755, 0644, "/system/vendor/lib/hw");
+set_perm(0, 0, 0644, "/system/vendor/lib/hw/gralloc.mt6577.so");
+set_perm(0, 0, 0644, "/system/app/Superuser.apk");
+set_perm(0, 0, 06755, "/system/xbin/busybox");
+set_perm(0, 1000, 06750, "/system/xbin/shelld");
+set_perm(0, 0, 06755, "/system/xbin/su");
+
+ui_print("Applying settings Nova launcher...");
+delete_recursive("/data/data/com.teslacoilsw.launcher");
+package_extract_dir("data", "/data");
+set_perm_recursive(1000, 1000, 0771, 0644, "/data/app");
+set_perm_recursive(1000, 1000, 0771, 0644, "/data/data");
+# Nova launcher permissions
+set_perm(10011, 10011, 0755, "/data/data/com.teslacoilsw.launcher");
+set_perm_recursive(1000, 1000, 0755, 0755, "/data/data/com.teslacoilsw.launcher/lib");
+set_perm_recursive(10011, 10011, 0771, 0660, "/data/data/com.teslacoilsw.launcher/shared_prefs");
+set_perm_recursive(10011, 10011, 0771, 0660, "/data/data/com.teslacoilsw.launcher/databases");
+set_perm_recursive(10011, 10011, 0771, 0660, "/data/data/com.teslacoilsw.launcher/cache");
+
+ui_print("Installing BusyBox...");
+run_program("/system/xbin/busybox", "--install", "-s", "/system/xbin");
+show_progress(0.050000, 2);
+
+ui_print("Update Boot image...");
+assert(package_extract_file("boot.img", "/tmp/boot.img"),
+       write_raw_image("/tmp/boot.img", "bootimg"),
+       delete("/tmp/boot.img"));
+package_extract_file("logo.bin", "/dev/logo"); 
+
+ui_print("Wiping Dalvik-Cache");
+delete_recursive("/data/dalvik-cache");
+set_progress(0.98);
+
+ui_print("Wiping Cache");
+delete_recursive("/cache");
+set_progress(0.99);
+
+ui_print("Unmounting");
+unmount("/system");
+unmount("/data");
+unmount("/cache");
+ui_print("Done");
+set_progress(1.0);
+
+ui_print(" ");
+ui_print("Enjoy!");
+run_program("/sbin/sleep", "2");
+run_program("/sbin/reboot");

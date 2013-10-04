@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+<string name="folder_preview">STACK</string>
+<string name="gesture_double_tap">Камера$#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;launchFlags=0x10200000;component=com.android.gallery3d/com.android.camera.CameraLauncher;end</string>
+<boolean name="favorites_show_label" value="true" />
+<string name="theme_icon_pack">HTC Sense 5 Pro:GO:com.gtp.nextlauncher.theme.servo.htc5pro</string>
+<int name="drawer_transparency" value="99" />
+<int name="wallpaper_scrolling_asus_max_size" value="-1" />
+<int name="drawer_app_grid_land_rows" value="3" />
+<boolean name="dock_show_shadow" value="true" />
+<string name="scroll_effect">FLIP</string>
+<string name="desktopCellSize">80 110 110 80</string>
+<boolean name="dock_enable" value="true" />
+<int name="dock_pages_count" value="1" />
+<string name="unread_count_provider">TESLA</string>
+<string name="gesture_swipe_up">Меню застосунків$#Intent;action=com.teslacoilsw.launcher.ACTION;component=com.teslacoilsw.launcher/.NovaShortcutHandler;S.LAUNCHER_ACTION=APP_DRAWER;end</string>
+<boolean name="dock_overlay" value="false" />
+<string name="dock_width_margin">NONE</string>
+<string name="desktop_height_margin">NONE</string>
+<int name="first_install_version" value="22300" />
+<string name="show_qsb">LANDSCAPE</string>
+<string name="drawer_scroll_effect">THROW</string>
+<boolean name="widget_cleanup_ids" value="false" />
+<boolean name="unread_count_apk_installed" value="true" />
+<boolean name="acra.enable" value="false" />
+<int name="folder_transparency" value="82" />
+<string name="dock_height">MEDIUM</string>
+<string name="wallpaper_scrolling">ON</string>
+<string name="folder_background">CIRCLE</string>
+<string name="gesture_pinch_out">Недавні застосунки$#Intent;action=com.teslacoilsw.launcher.ACTION;component=com.teslacoilsw.launcher/.NovaShortcutHandler;S.LAUNCHER_ACTION=SHOW_RECENT_APPS;end</string>
+<string name="scroll_speed">NOVA</string>
+<string name="animation_speed">NOVA</string>
+<boolean name="home_button_action_default_page_only" value="true" />
+<long name="0" value="1356984543079" />
+<string name="allapps_locale">uk_UA</string>
+<string name="screen_orientation">NOSENSOR</string>
+<string name="dock_fillmode">REPEAT</string>
+<string name="long_menu_intent">Пошук$#Intent;action=com.teslacoilsw.launcher.ACTION;component=com.teslacoilsw.launcher/.NovaShortcutHandler;S.LAUNCHER_ACTION=TEXT_SEARCH;end</string>
+<int name="app_icon_size" value="100" />
+<string name="system_build_prop_md5">9d098a4c57a5fb29b22552a52f114aa</string>
+<int name="desktop_grid_rows" value="4" />
+<boolean name="analytics_enabled" value="false" />
+<boolean name="auto_add_shortcuts_to_screen_overflow" value="true" />
+<string name="dock_shape">RECT</string>
+<boolean name="folder_favorites_show_label" value="true" />
+<int name="dock_alpha" value="226" />
+<boolean name="dock_show_indicator" value="true" />
+<boolean name="widgets_in_drawer" value="true" />
+<string name="drawer_style">HORIZONTAL_PAGINATED</string>
+<string name="notification_bar_hide_clock">DISABLED</string>
+<boolean name="dock_canChangeFillMode" value="false" />
+<string name="gesture_swipe_down">Розгорнути &quot;Панель сповіщень&quot;$#Intent;action=com.teslacoilsw.launcher.ACTION;component=com.teslacoilsw.launcher/.NovaShortcutHandler;S.LAUNCHER_ACTION=EXPAND_STATUS_BAR;end</string>
+<int name="drawer_app_grid_land_cols" value="6" />
+<int name="preference_version" value="22100" />
+<boolean name="drawer_folders_before_apps" value="true" />
+<boolean name="dock_show_divider" value="false" />
+<int name="desktop_grid_cols" value="4" />
+<boolean name="root_helper" value="false" />
+<boolean name="unread_badge_also_update_widgetlocker" value="true" />
+<string name="qsb_style">JELLYBEAN</string>
+<int name="drawer_app_grid_rows" value="5" />
+<long name="theme_icon_pack_last_update_time" value="1217592000000" />
+<int name="system_dpi" value="240" />
+<string name="gesture_pinch">Попередній перегляд$#Intent;action=com.teslacoilsw.launcher.ACTION;component=com.teslacoilsw.launcher/.NovaShortcutHandler;S.LAUNCHER_ACTION=SHOW_PREVIEWS;end</string>
+<string name="desktop_width_margin">NONE</string>
+<int name="dock_color" value="-16777216" />
+<string name="activity_animation">SYSTEM</string>
+<boolean name="dock_styled" value="true" />
+<boolean name="show_notification_bar" value="true" />
+<boolean name="resize_all_widgets" value="true" />
+<boolean name="dock_canChangeColor" value="true" />
+<string name="dockCellSize">64 62 62 64</string>
+<int name="workspace_screen_count" value="3" />
+<int name="drawer_app_grid_cols" value="3" />
+<string name="home_button_intent">Попередній перегляд$#Intent;action=com.teslacoilsw.launcher.ACTION;component=com.teslacoilsw.launcher/.NovaShortcutHandler;S.LAUNCHER_ACTION=SHOW_PREVIEWS;end</string>
+<int name="theme_holo_color" value="-13388315" />
+</map>

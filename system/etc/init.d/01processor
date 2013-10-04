@@ -1,0 +1,67 @@
+#!/system/bin/sh
+# by Bumbon4ik, no rights reserved ;)
+#begin
+
+echo -n 1  > /sys/devices/system/cpu/cpu1/online #включаем второе ядро
+echo -n userspace  > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor #выставляем пользовательский режим
+
+sleep 40 #задержка до полной загрузки 
+
+#Определяем переменные
+PREV_TOTAL=0
+PREV_IDLE=0
+		
+#скрипт управления частотой процессора		
+(while true; do
+
+lcd="$(cat /sys/class/leds/lcd-backlight/brightness)"
+if [ "$lcd" -eq "0" ] #экран выключен
+then
+    sleep 1
+	wake="$(cat /sys/power/wait_for_fb_wake)" #остановка скрипта пока выключен экран
+	echo -n 1  > /sys/devices/system/cpu/cpu1/online #включаем второе ядро
+	
+else #экран включен
+  CPU=(`busybox grep '^cpu ' /proc/stat`) # Get the total CPU statistics.
+  unset CPU[0]                          # Discard the "cpu" prefix.
+  IDLE=${CPU[4]}                        # Get the idle CPU time.
+ 
+  # Calculate the total CPU time.
+  TOTAL=0
+  for VALUE in "${CPU[@]}"; do
+    let "TOTAL=$TOTAL+$VALUE"
+  done
+ 
+  # Calculate the CPU usage since we last checked.
+  let "DIFF_IDLE=$IDLE-($PREV_IDLE)"
+  let "DIFF_TOTAL=$TOTAL-($PREV_TOTAL)"
+  let "DIFF_USAGE=(100*($DIFF_TOTAL-($DIFF_IDLE))/($DIFF_TOTAL+5))"
+  if [ "$DIFF_USAGE" -lt "$PREV_DIFF" ]; then let "DIFF_USAGE=(($DIFF_USAGE + $PREV_DIFF) / 2)"
+  fi
+  if [ "$DIFF_USAGE" -le "20" ] #если использование процессора меньше либо равно 20%
+  then 
+	echo -n 250250 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq #выставляем Макс.частоту 250
+  elif [ "$DIFF_USAGE" -gt "20" ] && [ "$DIFF_USAGE" -le "35" ]   #если использование процессора от 20% до 35%
+  then
+	echo -n 500500 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq  #выставляем Макс.частоту 500
+  elif [ "$DIFF_USAGE" -gt "35" ] && [ "$DIFF_USAGE" -le "50" ]   #если использование процессора от 35% до 50%
+  then
+	echo -n 667333 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq   #выставляем Макс.частоту 667
+  elif [ "$DIFF_USAGE" -gt "50" ] && [ "$DIFF_USAGE" -le "65" ]   #если использование процессора от 50% до 65%
+  then
+	echo -n 750750 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq   #выставляем Макс.частоту 750
+  elif [ "$DIFF_USAGE" -gt "65" ] && [ "$DIFF_USAGE" -le "85" ]  #если использование процессора от  65% до 85%
+  then
+	echo -n 834166 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq   #выставляем Макс.частоту 834
+  elif [ "$DIFF_USAGE" -gt "85" ]  #если использование процессора от  85%
+  then
+	echo -n 1001000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq   #выставляем Макс.частоту 1000
+  fi
+  # Remember the total and idle CPU times for the next check.
+  PREV_TOTAL="$TOTAL"
+  PREV_IDLE="$IDLE"
+  PREV_DIFF="$DIFF_USAGE"
+fi
+  sleep 1   #задержка 1 секунда
+
+done &)
