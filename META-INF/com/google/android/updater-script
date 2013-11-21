@@ -4,20 +4,13 @@ ui_print("");
 ui_print("================================================");
 ui_print("|              Lite Mod V1                     |");
 ui_print("|             for Fly IQ445                    |");
-ui_print("|            build: 05.10.13                   |");
+ui_print("|            build: 06.11.13                   |");
 ui_print("|                                              |");
 ui_print("|           MOD by localizator                 |");
-ui_print("|     localizator.github.io/lite_mod           |");
-ui_print("|          Follow me @localizator              |");
 ui_print("================================================");
 ui_print("");
 ui_print("");
 show_progress(0.950000, 50);
-
-ui_print("Start write EBR1...");
-assert(package_extract_file("EBR1", "/tmp/EBR1"),
-       run_program("/sbin/flash_image", "/dev/block/mmcblk0p1", "/tmp/EBR1"),
-       delete("/tmp/EBR1"));
 
 ui_print("Formatting system...");
 unmount("/system");
@@ -101,18 +94,6 @@ set_perm(0, 0, 0644, "/system/app/Superuser.apk");
 set_perm(0, 0, 06755, "/system/xbin/busybox");
 set_perm(0, 1000, 06750, "/system/xbin/shelld");
 set_perm(0, 0, 06755, "/system/xbin/su");
-
-ui_print("Applying settings Nova launcher...");
-delete_recursive("/data/data/com.teslacoilsw.launcher");
-package_extract_dir("data", "/data");
-set_perm_recursive(1000, 1000, 0771, 0644, "/data/app");
-set_perm_recursive(1000, 1000, 0771, 0644, "/data/data");
-# Nova launcher permissions
-set_perm(10011, 10011, 0755, "/data/data/com.teslacoilsw.launcher");
-set_perm_recursive(1000, 1000, 0755, 0755, "/data/data/com.teslacoilsw.launcher/lib");
-set_perm_recursive(10011, 10011, 0771, 0660, "/data/data/com.teslacoilsw.launcher/shared_prefs");
-set_perm_recursive(10011, 10011, 0771, 0660, "/data/data/com.teslacoilsw.launcher/databases");
-set_perm_recursive(10011, 10011, 0771, 0660, "/data/data/com.teslacoilsw.launcher/cache");
 
 ui_print("Installing BusyBox...");
 run_program("/system/xbin/busybox", "--install", "-s", "/system/xbin");
