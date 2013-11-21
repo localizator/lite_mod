@@ -4,61 +4,66 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Lite mod by localizator</title>
+
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/main.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <script src="javascripts/scale.fix.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
   <body>
-
-      <header>
-        <h1>Lite mod</h1>
-        <p>Lite Mod for Fly IQ445</p>
-      </header>
-
-      <div id="banner">
-        <span id="logo"></span>
-
-        <a href="https://github.com/localizator/lite_mod" class="button fork"><strong>View On GitHub</strong></a>
-        <div class="downloads">
-          <span>Downloads:</span>
-          <ul>
-            <li><a href="https://github.com/localizator/lite_mod/zipball/master" class="button">ZIP</a></li>
-            <li><a href="https://github.com/localizator/lite_mod/tarball/master" class="button">TAR</a></li>
-          </ul>
-        </div>
-      </div><!-- end banner -->
-
     <div class="wrapper">
-      <nav>
-        <ul></ul>
-      </nav>
+      <header>
+        <h1 class="header">Lite mod</h1>
+        <p class="header">Lite Mod for Fly IQ445</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/localizator/lite_mod/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/localizator/lite_mod/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/localizator/lite_mod">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/localizator">localizator</a></p>
+
+
+      </header>
       <section>
         <h2>
 <a name="lite-mod-v1" class="anchor" href="#lite-mod-v1"><span class="octicon octicon-link"></span></a>Lite Mod V1</h2>
 
+<h2>
+<a name="%D0%BD%D0%B0-%D0%B1%D0%B0%D0%B7%D0%B5-%D0%BE%D1%84%D0%B8%D1%86%D0%B8%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D0%B9-%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D0%B8-14" class="anchor" href="#%D0%BD%D0%B0-%D0%B1%D0%B0%D0%B7%D0%B5-%D0%BE%D1%84%D0%B8%D1%86%D0%B8%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D0%B9-%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D0%B8-14"><span class="octicon octicon-link"></span></a>на базе официальной версии 14</h2>
+
 <p><strong>Изменения</strong>  </p>
 
-<p><strong>05.10.2013:</strong></p>
+<p><strong>06.11.13</strong></p>
+
+<ul>
+<li>  вернул стандартный аудио-проигрыватель. Lewa удилил.</li>
+<li>  вернул синхронизацию контактов и календаря с google</li>
+<li>  добавил инженерное меню в настройки</li>
+<li>  RootExplorer сделано системным приложением</li>
+<li>  заменил bootlogo</li>
+<li>  добавил bootanimation</li>
+<li>  Украинский язык по умолчанию</li>
+</ul><p><strong>05.10.2013:</strong></p>
 
 <ul>
 <li>  Удален весь сторонний софт</li>
-<li>  Заменен стандартный Launcher на Nova launcher</li>
-<li>  Заменен стандартный Browser на Dolphin</li>
-<li>  Заменено приложение камеры. Взято от прошивки версии 8</li>
-<li>  Заменена клавиатура на Xperia Keyboard</li>
-<li>  Стандартный аудио плеер заменен на Lewa Player</li>
-<li>  Стандартный видео плеер заменен на MX Player</li>
-<li>  Заменены стандартные обои, на обои от HTC One</li>
-<li>  Заменены стандартные звуки, на звуки от MIUI</li>
-<li>  Заменена стандартная бутанимация</li>
-<li>  Заменено бутлого</li>
-<li>  Сделан root</li>
+<li>  Сделан root и добавлена поддержка init.d (+паро скриптов)</li>
+<li>  Добавлены твики в build.prop</li>
+</ul><p>Заменено:  </p>
+
+<ul>
+<li>  стандартный Launcher на Nova launcher</li>
+<li>  стандартный Browser на Dolphin</li>
+<li>  стандартная клавиатура на Xperia Keyboard</li>
+<li>  стандартный аудио плеер на Lewa Player</li>
+<li>  стандартный видео плеер на MX Player</li>
+<li>  стандартные обои, на обои от HTC One</li>
+<li>  стандартные звуки, на звуки от MIUI</li>
 </ul><p><strong>Установка</strong></p>
 
 <p>1) Скачиваем прошивку и копируем ее в корень карты памяти (/sdcard)<br>
@@ -72,11 +77,10 @@
 (Навигация по Recovery осуществляется при помощи кнопок громкости (вверх/вниз), включения (выбор), сенсорной кнопки назад)</p>
       </section>
       <footer>
-        <p>Project maintained by <a href="https://github.com/localizator">localizator</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
       </footer>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-    
+		
   </body>
 </html>
