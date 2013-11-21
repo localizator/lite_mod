@@ -3,9 +3,19 @@
 #begin
 
 echo -n 1  > /sys/devices/system/cpu/cpu1/online #включаем второе ядро
-echo -n userspace  > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor #выставляем пользовательский режим
 
-sleep 40 #задержка до полной загрузки 
+#sysctl пареметры random
+busybox sysctl -e -w kernel.random.write_wakeup_threshold=1024
+busybox sysctl -e -w kernel.random.read_wakeup_threshold=1024
+#sysctl
+
+echo 0 > /proc/mtk_hotplug/enable
+
+echo -n hybrid  > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor #выставляем режим hybrid
+
+#отключаем службы медиа сканирования
+pm disable com.android.providers.media 
+pm disable com.android.providers.media.MediaScannerReceiver
 
 #Определяем переменные
 PREV_TOTAL=0
@@ -14,15 +24,30 @@ PREV_IDLE=0
 #скрипт управления частотой процессора		
 (while true; do
 
-lcd="$(cat /sys/class/leds/lcd-backlight/brightness)"
-if [ "$lcd" -eq "0" ] #экран выключен
-then
-    sleep 1
-	wake="$(cat /sys/power/wait_for_fb_wake)" #остановка скрипта пока выключен экран
-	echo -n 1  > /sys/devices/system/cpu/cpu1/online #включаем второе ядро
-	
+  lcd="$(cat /sys/class/leds/lcd-backlight/brightness)"
+  gov="$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor)"
+if [ "$lcd" -eq "0" ]; then #экран выключен
+    if [ "$gov" == "powersave" ] # если режим powersave
+      then
+	  sleep 1 #если экран выключен и режим powersave то ничего не делаем
+	fi
+  if [ "$gov" == "hybrid" ] # если режим hybrid
+	then
+   	  sleep 3
+      echo -n 0  > /sys/devices/system/cpu/cpu1/online #отключаем второе ядро
+	  echo "250250" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq #ставим макс.частоту 250
+	  echo -n powersave  > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor #выставляем режим powersave
+ fi
 else #экран включен
-  CPU=(`busybox grep '^cpu ' /proc/stat`) # Get the total CPU statistics.
+  if [ "$gov" == "powersave" ] #если режим powersave
+    then    
+	PREV_TOTAL=0
+    PREV_IDLE=0
+	echo -n 1  > /sys/devices/system/cpu/cpu1/online #включаем второе ядро
+	echo -n hybrid  > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor #выставляем режим hybrid
+  fi
+  
+  CPU=(`cat /proc/stat | busybox grep '^cpu '`) # Get the total CPU statistics.
   unset CPU[0]                          # Discard the "cpu" prefix.
   IDLE=${CPU[4]}                        # Get the idle CPU time.
  
@@ -35,33 +60,36 @@ else #экран включен
   # Calculate the CPU usage since we last checked.
   let "DIFF_IDLE=$IDLE-($PREV_IDLE)"
   let "DIFF_TOTAL=$TOTAL-($PREV_TOTAL)"
-  let "DIFF_USAGE=(100*($DIFF_TOTAL-($DIFF_IDLE))/($DIFF_TOTAL+5))"
-  if [ "$DIFF_USAGE" -lt "$PREV_DIFF" ]; then let "DIFF_USAGE=(($DIFF_USAGE + $PREV_DIFF) / 2)"
-  fi
-  if [ "$DIFF_USAGE" -le "20" ] #если использование процессора меньше либо равно 20%
+  let "DIFF_USAGE=(1000*($DIFF_TOTAL-($DIFF_IDLE))/($DIFF_TOTAL)+5)/10"
+  	 	 
+  if [ "$DIFF_USAGE" -le "17" ] #если использование процессора меньше либо равно 20%
   then 
-	echo -n 250250 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq #выставляем Макс.частоту 250
-  elif [ "$DIFF_USAGE" -gt "20" ] && [ "$DIFF_USAGE" -le "35" ]   #если использование процессора от 20% до 35%
+    echo "250250" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq #выставляем Макс.частоту 250
+  fi
+  if [ "$DIFF_USAGE" -gt "17" ] && [ "$DIFF_USAGE" -le "32" ]   #если использование процессора от 20% до 32%
   then
-	echo -n 500500 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq  #выставляем Макс.частоту 500
-  elif [ "$DIFF_USAGE" -gt "35" ] && [ "$DIFF_USAGE" -le "50" ]   #если использование процессора от 35% до 50%
+    echo "500500" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq  #выставляем Макс.частоту 500
+  fi
+  if [ "$DIFF_USAGE" -gt "32" ] && [ "$DIFF_USAGE" -le "50" ]   #если использование процессора от 32% до 50%
   then
-	echo -n 667333 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq   #выставляем Макс.частоту 667
-  elif [ "$DIFF_USAGE" -gt "50" ] && [ "$DIFF_USAGE" -le "65" ]   #если использование процессора от 50% до 65%
+    echo "667333" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq   #выставляем Макс.частоту 667
+  fi
+  if [ "$DIFF_USAGE" -gt "50" ] && [ "$DIFF_USAGE" -le "70" ]   #если использование процессора от 50% до 70%
   then
-	echo -n 750750 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq   #выставляем Макс.частоту 750
-  elif [ "$DIFF_USAGE" -gt "65" ] && [ "$DIFF_USAGE" -le "85" ]  #если использование процессора от  65% до 85%
+    echo "750750" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq   #выставляем Макс.частоту 750
+  fi
+  if [ "$DIFF_USAGE" -gt "70" ] && [ "$DIFF_USAGE" -le "90" ]  #если использование процессора от  70% до 85%
   then
-	echo -n 834166 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq   #выставляем Макс.частоту 834
-  elif [ "$DIFF_USAGE" -gt "85" ]  #если использование процессора от  85%
+    echo "834166" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq   #выставляем Макс.частоту 834
+  fi
+  if [ "$DIFF_USAGE" -gt "90" ]  #если использование процессора от  90%
   then
-	echo -n 1001000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq   #выставляем Макс.частоту 1000
+    echo "1001000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq   #выставляем Макс.частоту 1000
   fi
   # Remember the total and idle CPU times for the next check.
   PREV_TOTAL="$TOTAL"
   PREV_IDLE="$IDLE"
-  PREV_DIFF="$DIFF_USAGE"
 fi
-  sleep 1   #задержка 1 секунда
 
+sleep 1   #задержка 1 секунда
 done &)
